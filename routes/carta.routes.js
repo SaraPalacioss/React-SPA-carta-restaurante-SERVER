@@ -3,8 +3,8 @@ const express = require("express");
 const Carta = require("../models/Carta");
 const router = express.Router();
 
-// GET CARTA
-router.get("/carta", (req, res, next) => {
+// GET ALL CARTA
+router.get("/", (req, res, next) => {
   Carta.find()
     .then(result => {
       res.status(200).json(result);
@@ -16,18 +16,18 @@ router.get("/carta", (req, res, next) => {
 });
 
 // POST NEW PRODUCT
-router.post("/carta/nuevo", (req, res, next) => {
+router.post("/nuevo", (req, res, next) => {
 
-  const {productName, price} = req.body;
+  const {nombreProducto, precioProducto} = req.body;
  
-  if (!productName || !price) {
+  if (!nombreProducto || !precioProducto) {
     res.send({ message: "Tienes que cumplimentar ambos campos" });
     return;
   }
 
   Carta.create({
-    productName: productName,
-    price: price
+    nombreProducto: nombreProducto,
+    precioProducto: precioProducto
   })
     .then(result => {
       res.json(result);
@@ -38,7 +38,7 @@ router.post("/carta/nuevo", (req, res, next) => {
 });
 
 // GET EDIT PRODUCTO
-router.get('/carta/editar/:id', (req, res, next) => {
+router.get('/editar/:id', (req, res, next) => {
   const { id } = req.params;
   Carta.findById(id)
   .then(result => {
@@ -48,7 +48,7 @@ router.get('/carta/editar/:id', (req, res, next) => {
 })
 
 // PUT EDIT PRODUCTO
-router.put('/carta/editar/:id', (req, res, next) => {
+router.put('/editar/:id', (req, res, next) => {
   const { id } = req.params;
   Carta.findByIdAndUpdate(id, req.body)
   .then(() => {
@@ -59,7 +59,7 @@ router.put('/carta/editar/:id', (req, res, next) => {
   })
 })
 
-router.delete('/carta/borrar/:id', (req, res, next) => {
+router.delete('/borrar/:id', (req, res, next) => {
   const { id } = req.params;
   Carta.findByIdAndDelete(id)
   .then(() => res.status(200).json({message: `Producto ${id} borrado`}))

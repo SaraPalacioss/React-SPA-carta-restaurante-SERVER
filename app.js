@@ -12,8 +12,7 @@ const cors          = require("cors");
 const flash         = require("connect-flash");
 const cookieSession = require('cookie-session')
 
-const Carta = require("./models/Carta");
-
+// MONGOOSE CONECTION
 mongoose
   .connect(
     `mongodb+srv://${process.env.NAME}:${process.env.PASSWORD}@cluster0.bqpus.mongodb.net/${process.env.DATABASE}?retryWrites=true&w=majority`,
@@ -28,6 +27,7 @@ mongoose
     console.error("Error connecting to mongo", err);
   });
 
+
 const app_name = require("./package.json").name;
 
 const debug = require("debug")(
@@ -36,11 +36,13 @@ const debug = require("debug")(
 
 const app = express();
 
+
 // MDW SETUP
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 
 // EXPRESS VIEW SETUP
 app.use(
@@ -51,6 +53,7 @@ app.use(
   })
 );
 
+// CORS SETUP
 app.use(
   cors({
     credentials: true,
@@ -85,11 +88,14 @@ app.use(session ({
     }
 }))
 
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
+
 //MDW FLASH
 app.use(flash());
+
 
 //ROUTES
 const index = require("./routes/index");
@@ -97,5 +103,6 @@ app.use("/", index);
 
 const cartaRoutes = require("./routes/carta.routes");
 app.use("/", cartaRoutes);
+
 
 module.exports = app;

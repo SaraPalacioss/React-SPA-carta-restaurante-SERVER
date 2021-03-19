@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const cartaSchema = new Schema({
-  productName: { type: String, required: true},
-  price: { type: Number, required: true }
+  nombreProducto: { type: String, required: true},
+  precioProducto: { type: Number, required: true }
 },
 {
   timestamps: true,
